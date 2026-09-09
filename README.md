@@ -6,140 +6,121 @@
 
 [![Copr build status](https://copr.fedorainfracloud.org/coprs/mikachu/keyflip/package/keyflip/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/mikachu/keyflip/package/keyflip/)
 
-**KeyFlip is a GNOME utility for safely enabling and disabling your laptop's built-in keyboard.**
+**A GNOME utility for safely enabling and disabling your laptop's built-in keyboard without affecting external keyboards.**
 
-Useful when you're using an external keyboard, covering your laptop keyboard, or cleaning your keyboard without accidental input.
+KeyFlip started from a simple problem: when a laptop is used like a desktop, the built-in keyboard can become something you accidentally press, cover, or need to clean. KeyFlip turns that into a deliberate, reversible mode instead of a terminal command you have to remember.
 
-KeyFlip includes a GTK 4 app, GNOME panel controls, automatic external-keyboard detection, Cleaning Mode, and a global keyboard shortcut.
+**Current version:** `0.2.0-beta`
 
-## Quick install
+---
 
-### Fedora
+## What it does
+
+- 💻 **Laptop Mode** — keeps the internal keyboard enabled
+- ⌨️ **Desk Mode** — disables the internal keyboard while external keyboards remain available
+- 🧹 **Cleaning Mode** — temporarily blocks keyboard input for 60 seconds while keeping the mouse or trackpad usable
+- ⚡ **Global shortcut** — `Super + Shift + K` toggles Laptop/Desk Mode
+- 🔌 **Automatic switching** — optionally enters Desk Mode when a USB or Bluetooth keyboard connects
+- 🛡️ **Safety checks** — warns before disabling the internal keyboard when no external keyboard is detected
+- 🖥️ **GNOME panel controls** — change modes without reopening the app
+- 🪟 **Wayland + X11 support**
+
+Panel controls, automatic switching, and the global shortcut continue working while the main KeyFlip window is closed.
+
+---
+
+## Install on Fedora
 
 ```bash
 sudo dnf copr enable mikachu/keyflip
 sudo dnf install keyflip
-````
+```
 
-Then launch **KeyFlip** from your applications menu or run:
+Then launch **KeyFlip** from the applications menu or run:
 
 ```bash
 keyflip
 ```
 
-Log out and back in after the first installation if the GNOME panel integration does not appear.
-
-Enable the extension manually if needed:
+If the GNOME panel integration does not appear after the first install, log out and back in. You can also enable the extension manually:
 
 ```bash
 gnome-extensions enable keyflip@miflow13.github.io
 ```
 
-## Features
-
-* 💻 **Laptop Mode** — keeps the internal keyboard enabled
-* ⌨️ **Desk Mode** — disables the internal keyboard while leaving external keyboards available
-* 🧹 **Cleaning Mode** — blocks keyboard input for 60 seconds while keeping your mouse or trackpad usable
-* ⚡ **Super + Shift + K** — quickly switch between Laptop Mode and Desk Mode
-* 🔌 **Automatic switching** — optionally enter Desk Mode when a USB or Bluetooth keyboard connects
-* 🛡️ **Safety checks** — warns before disabling the internal keyboard when no external keyboard is detected
-* 🖥️ Built-in GNOME panel controls
-* 🪟 Works on Wayland and X11
-* 🎛️ Open the full KeyFlip app directly from the panel
-
-Panel controls, automatic switching, and the global shortcut continue working while the KeyFlip app window is closed.
+---
 
 ## Screenshots
 
-<img
-width="1920"
-alt="KeyFlip main window"
-src="https://github.com/user-attachments/assets/f43d125f-4547-4a41-83c9-76d11ffc778d"
-/>
+<img width="1920" alt="KeyFlip main window" src="https://github.com/user-attachments/assets/f43d125f-4547-4a41-83c9-76d11ffc778d" />
 
-<img
-width="1920"
-alt="KeyFlip settings"
-src="https://github.com/user-attachments/assets/f9233967-490a-4506-992e-ba2315ce6e88"
-/>
+<img width="1920" alt="KeyFlip settings" src="https://github.com/user-attachments/assets/f9233967-490a-4506-992e-ba2315ce6e88" />
+
+---
 
 ## Compatibility
 
-KeyFlip is currently developed and tested primarily on **Fedora + GNOME**.
+KeyFlip is developed and tested primarily on **Fedora + GNOME**.
 
-| Feature                       | Support             |
-| ----------------------------- | ------------------- |
-| Fedora                        | ✅                   |
-| GNOME                         | ✅                   |
-| Wayland                       | ✅                   |
-| X11                           | ✅                   |
-| i8042 / AT internal keyboards | ✅                   |
-| External USB keyboards        | ✅ Remain enabled    |
-| Bluetooth keyboards           | ✅ Remain enabled    |
-| Internal USB keyboards        | ❌ Not yet supported |
-| Internal I2C keyboards        | ❌ Not yet supported |
+| Feature | Support |
+| --- | --- |
+| Fedora | ✅ |
+| GNOME | ✅ |
+| Wayland | ✅ |
+| X11 | ✅ |
+| i8042 / AT internal keyboards | ✅ |
+| External USB keyboards | ✅ Remain enabled |
+| Bluetooth keyboards | ✅ Remain enabled |
+| Internal USB keyboards | ❌ Not yet supported |
+| Internal I2C keyboards | ❌ Not yet supported |
 
 The included GNOME extension currently targets **GNOME Shell 50**.
 
-KeyFlip requires:
+### Runtime dependencies
 
-* Python 3
-* GTK 4 / `python3-gobject`
-* `polkit`
-* `util-linux`
-* `systemd`
-* `python3-evdev` on Fedora or `python-evdev` on Arch for Cleaning Mode
+- Python 3
+- GTK4 / `python3-gobject`
+- `polkit`
+- `util-linux`
+- `systemd`
+- `python3-evdev` on Fedora or `python-evdev` on Arch for Cleaning Mode
 
-Development validation additionally uses Node.js, `desktop-file-validate`,
-`appstreamcli`, and `glib-compile-schemas`. These tools are not required merely
-to run an installed copy.
+---
 
 ## How the modes work
 
 ### Laptop Mode
 
-Your built-in laptop keyboard works normally.
-
-Use this when using the laptop by itself.
+The built-in laptop keyboard works normally.
 
 ### Desk Mode
 
-KeyFlip disables the supported internal laptop keyboard while leaving USB and Bluetooth keyboards available.
-
-This is useful when your laptop is being used more like a desktop or when an external keyboard is placed over or near the built-in keyboard.
+KeyFlip disables supported internal laptop keyboards while leaving USB and Bluetooth keyboards available. Use this when the laptop is being used more like a desktop or an external keyboard sits over or near the built-in one.
 
 ### Cleaning Mode
 
-Cleaning Mode temporarily blocks keyboard input for **60 seconds** so you can clean your keyboard without triggering shortcuts or typing accidentally.
-
-Your mouse and trackpad remain usable, and you can select **End Cleaning** at any time.
-
-Keyboard input automatically returns after the timer ends.
+Cleaning Mode temporarily blocks keyboard input for **60 seconds** so the keyboard can be cleaned without triggering shortcuts or accidental typing. The mouse and trackpad remain usable, and **End Cleaning** restores input immediately.
 
 <details>
-<summary>Cleaning Mode technical details</summary>
+<summary><strong>Cleaning Mode technical details</strong></summary>
 
 Release any held keys before starting Cleaning Mode.
 
-Cleaning temporarily pauses panel controls and automatic mode switching while preserving your previous Laptop/Desk Mode.
+Cleaning temporarily pauses panel controls and automatic mode switching while preserving the previous Laptop/Desk Mode. If the internal keyboard was disabled before cleaning, it remains disabled afterward.
 
-If the internal keyboard was disabled before cleaning, it remains disabled afterward.
-
-For devices that combine keyboard and pointer input on one event endpoint, KeyFlip attempts to filter keyboard events while forwarding pointer input.
-
-If this cannot be configured safely, Cleaning Mode stops instead of leaving only part of the keyboard set blocked.
+For devices that combine keyboard and pointer input on one event endpoint, KeyFlip attempts to filter keyboard events while forwarding pointer input. If this cannot be configured safely, Cleaning Mode stops instead of leaving only part of the keyboard set blocked.
 
 New input devices are checked approximately every 100 ms during cleaning.
 
 </details>
 
-## Automatic external-keyboard detection
+---
 
-KeyFlip can automatically switch to Desk Mode when a USB or Bluetooth keyboard connects.
+## Automatic keyboard detection
 
-When the last external keyboard disconnects, KeyFlip can return to Laptop Mode.
+KeyFlip can automatically switch to Desk Mode when a USB or Bluetooth keyboard connects. When the last external keyboard disconnects, it can return to Laptop Mode.
 
-Automatic switching can be configured from the full KeyFlip application.
+Automatic switching is configurable from the main application.
 
 ## Global shortcut
 
@@ -151,19 +132,13 @@ Super + Shift + K
 
 switches between Laptop Mode and Desk Mode from anywhere in GNOME.
 
-In Desk Mode, use an external keyboard for the shortcut because the internal keyboard is disabled.
-
-You can also restore Laptop Mode from the GNOME panel.
-
-### Change the shortcut
-
-For example:
+To change it:
 
 ```bash
 gsettings set io.github.miflow13.KeyFlip toggle-mode-shortcut "['<Super><Shift>j']"
 ```
 
-Disable the shortcut:
+Disable it:
 
 ```bash
 gsettings set io.github.miflow13.KeyFlip toggle-mode-shortcut "[]"
@@ -175,7 +150,7 @@ Restore the default:
 gsettings reset io.github.miflow13.KeyFlip toggle-mode-shortcut
 ```
 
-Changes apply immediately.
+---
 
 ## Manual installation
 
@@ -185,19 +160,13 @@ Download and extract:
 keyflip-0.2.0-beta.tar.gz
 ```
 
-Open a terminal inside the extracted directory and run:
+From the extracted directory:
 
 ```bash
 sudo ./install.sh
 ```
 
-This installs the full KeyFlip package:
-
-* GTK application
-* GNOME Shell extension
-* panel controls
-* global shortcut
-* keyboard-control helper
+This installs the GTK application, GNOME Shell extension, panel controls, global shortcut, and keyboard-control helper.
 
 For Cleaning Mode on Fedora:
 
@@ -207,9 +176,7 @@ sudo dnf install python3-evdev
 
 Combined keyboard/pointer devices also require `/dev/uinput`.
 
-Log out and back in after installing or updating KeyFlip.
-
-### Uninstall a manual installation
+### Uninstall
 
 From the source directory:
 
@@ -217,7 +184,7 @@ From the source directory:
 sudo ./uninstall.sh
 ```
 
-## Remove the Fedora package
+Or remove the Fedora package:
 
 ```bash
 sudo dnf remove keyflip
@@ -229,9 +196,11 @@ Optionally remove the COPR repository:
 sudo dnf copr remove mikachu/keyflip
 ```
 
-## Building packages
+---
 
-Run:
+## Development and packaging
+
+Create a source package with:
 
 ```bash
 make package
@@ -243,49 +212,37 @@ This validates the source and creates:
 dist/keyflip-0.2.0-beta.tar.gz
 ```
 
-The Arch and RPM packaging recipes use this local source archive.
+Development validation uses tools including Node.js, `desktop-file-validate`, `appstreamcli`, and `glib-compile-schemas`; these are not required simply to run an installed copy.
 
 ### Arch
 
-Copy the archive beside:
-
-```text
-packaging/arch/PKGBUILD
-```
-
-Then refresh the checksum:
+Place the source archive beside `packaging/arch/PKGBUILD`, then run:
 
 ```bash
 updpkgsums
-```
-
-and build with:
-
-```bash
 makepkg
 ```
 
 ### RPM
 
-Place the source archive in your RPM `SOURCES` directory and build:
+Place the source archive in the RPM `SOURCES` directory and build using:
 
 ```text
 packaging/obs/keyflip.spec
 ```
 
+---
+
+## Engineering notes
+
+KeyFlip combines a GTK4 application, GNOME Shell integration, system-level keyboard control, device detection, persistent settings, and safety fallbacks. The project is intentionally conservative around input-device changes: when KeyFlip cannot determine that a transition is safe, it prefers not to disable input.
+
 ## AI-assisted development
 
-KeyFlip was developed with help from AI tools for coding, debugging, documentation, and learning.
+KeyFlip was developed with help from AI tools for coding, debugging, documentation, and learning. I review, test, modify, and take responsibility for everything released in this project.
 
-I review, test, modify, and take responsibility for everything released in this project.
+---
 
 ## Status
 
-**Current version:** `0.2.0-beta`
-
-KeyFlip is still in active development.
-
-Bug reports, hardware compatibility reports, feature suggestions, and other feedback are welcome.
-
-```
-```
+KeyFlip is still in active development. Bug reports, hardware compatibility reports, and feature suggestions are welcome.
