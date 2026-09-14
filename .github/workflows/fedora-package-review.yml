@@ -1,0 +1,62 @@
+name: Fedora package review prep
+
+on:
+  push:
+    branches:
+      - chore/fedora-review-prep
+  workflow_dispatch:
+
+jobs:
+  rpm-review-build:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:rawhide
+
+    steps:
+      - name: Check out KeyFlip
+        uses: actions/checkout@v4
+
+      - name: Install Fedora packaging tools
+        run: |
+          dnf -y install \
+            appstream \
+            bash \
+            curl \
+            desktop-file-utils \
+            glib2 \
+            patch \
+            python3 \
+            rpm-build \
+            rpmdevtools \
+            rpmlint \
+            systemd-rpm-macros
+
+      - name: Prepare RPM sources
+        run: |
+          rpmdev-setuptree
+          cp packaging/fedora/keyflip.spec "$HOME/rpmbuild/SPECS/keyflip.spec"
+          cp packaging/fedora/0001-fix-appstream-urls.patch "$HOME/rpmbuild/SOURCES/"
+          curl -L --fail \
+            https://github.com/miflow13/KeyFlip/releases/download/v0.2.0-beta/keyflip-0.2.0-beta.tar.gz \
+            -o "$HOME/rpmbuild/SOURCES/keyflip-0.2.0-beta.tar.gz"
+          echo 'f6f8d4494e8b30de0599713453a6cf6ad289d854f9ff85e3bec448d78062175a  '
+          sha256sum "$HOME/rpmbuild/SOURCES/keyflip-0.2.0-beta.tar.gz"
+          test "$(sha256sum "$HOME/rpmbuild/SOURCES/keyflip-0.2.0-beta.tar.gz" | cut -d' ' -f1)" = \
+            f6f8d4494e8b30de0599713453a6cf6ad289d854f9ff85e3bec448d78062175a
+
+      - name: Build RPMs
+        run: rpmbuild -ba "$HOME/rpmbuild/SPECS/keyflip.spec"
+
+      - name: Run rpmlint
+        run: |
+          rpmlint \
+            packaging/fedora/keyflip.spec \
+            "$HOME"/rpmbuild/SRPMS/*.src.rpm \
+            "$HOME"/rpmbuild/RPMS/noarch/*.rpm
+
+      - name: Show package contents
+        run: |
+          for rpm in "$HOME"/rpmbuild/RPMS/noarch/*.rpm; do
+            echo "== $rpm =="
+            rpm -qpl "$rpm"
+          done
