@@ -63,3 +63,21 @@ jobs:
             echo "== $rpm =="
             rpm -qpl "$rpm"
           done
+
+      - name: Collect review artifacts
+        if: success()
+        run: |
+          mkdir -p fedora-review-artifacts
+          cp packaging/fedora/keyflip.spec fedora-review-artifacts/
+          cp "$HOME"/rpmbuild/SRPMS/*.src.rpm fedora-review-artifacts/
+          cp "$HOME"/rpmbuild/RPMS/noarch/*.rpm fedora-review-artifacts/
+          sha256sum fedora-review-artifacts/* > fedora-review-artifacts/SHA256SUMS
+
+      - name: Upload review artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: keyflip-fedora-review
+          path: fedora-review-artifacts/
+          if-no-files-found: error
+          retention-days: 30
