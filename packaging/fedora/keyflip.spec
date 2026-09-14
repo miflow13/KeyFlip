@@ -17,10 +17,9 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  glib2
 BuildRequires:  python3
 
+Requires:       /usr/bin/canberra-gtk-play
 Requires:       bash
-Requires:       glib2
 Requires:       gtk4
-Requires:       libcanberra
 Requires:       polkit
 Requires:       python3
 Requires:       python3-gobject
@@ -108,6 +107,7 @@ bash -n keyflip keyflip-helper
 %{_datadir}/glib-2.0/schemas/io.github.miflow13.KeyFlip.gschema.xml
 
 %files -n gnome-shell-extension-keyflip
+%doc README.md
 %{_datadir}/gnome-shell/extensions/keyflip@miflow13.github.io/
 
 %changelog
