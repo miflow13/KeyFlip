@@ -8,6 +8,7 @@ Summary:        GNOME utility for controlling a laptop's internal keyboard
 License:        MIT
 URL:            https://github.com/miflow13/KeyFlip
 Source0:        https://github.com/miflow13/KeyFlip/releases/download/v%{version}-%{prerelease}/keyflip-%{version}-%{prerelease}.tar.gz
+Patch0:         0001-fix-appstream-urls.patch
 
 BuildArch:      noarch
 BuildRequires:  appstream
@@ -46,7 +47,7 @@ keyboard shortcut, and automatic mode switching while the main KeyFlip window
 is closed.
 
 %prep
-%autosetup -n keyflip-%{version}-%{prerelease}
+%autosetup -n keyflip-%{version}-%{prerelease} -p1
 
 %build
 # KeyFlip is implemented in interpreted Python, JavaScript, and shell code.
