@@ -16,25 +16,25 @@ BuildRequires:  bash
 BuildRequires:  desktop-file-utils
 BuildRequires:  glib2
 BuildRequires:  python3
-BuildRequires:  systemd-rpm-macros
 
 Requires:       bash
+Requires:       glib2
 Requires:       gtk4
 Requires:       libcanberra
 Requires:       polkit
 Requires:       python3
-Requires:       python3-evdev
 Requires:       python3-gobject
 Requires:       systemd
+Requires:       systemd-udev
 Requires:       util-linux
 Recommends:     gnome-shell-extension-keyflip = %{version}-%{release}
 
 %description
 KeyFlip is a GNOME utility for safely enabling and disabling supported laptop
 internal keyboards while keeping external USB and Bluetooth keyboards active.
-It provides Laptop, Desk, and Cleaning modes, automatic external-keyboard
-detection, safety checks, and recovery if the graphical front end exits while
-the internal keyboard is disabled.
+It provides Laptop and Desk modes, automatic external-keyboard detection,
+safety checks, and a reversible privileged helper for supported i8042/AT
+internal keyboards.
 
 %package -n gnome-shell-extension-keyflip
 Summary:        GNOME Shell integration for KeyFlip
@@ -48,13 +48,17 @@ is closed.
 
 %prep
 %autosetup -n keyflip-%{version}-%{prerelease} -p1
+sed -i 's|Exec=/usr/local/bin/keyflip|Exec=keyflip|' \
+    packaging/io.github.miflow13.KeyFlip.desktop
+sed -i 's|https://github.com/miflow13/KeyFlip-|https://github.com/miflow13/KeyFlip|g' \
+    gnome-extension/metadata.json
 
 %build
 # KeyFlip is implemented in interpreted Python, JavaScript, and shell code.
 
 %install
 # Shared keyboard-control helper and settings.
-install -Dm755 helper/keyflip-helper \
+install -Dm755 keyflip-helper \
     %{buildroot}%{_libexecdir}/keyflip/keyflip-helper
 install -Dm644 packaging/io.github.miflow13.KeyFlip.policy \
     %{buildroot}%{_datadir}/polkit-1/actions/io.github.miflow13.KeyFlip.policy
@@ -67,14 +71,7 @@ install -Dm644 assets/sounds/toggle-off.ogg \
 
 # GTK application.
 install -Dm644 app.py %{buildroot}%{_libexecdir}/keyflip/app.py
-for module in __init__ application window state cleaning recovery sound; do
-    install -Dm644 "src/keyflip/$module.py" \
-        "%{buildroot}%{_libexecdir}/keyflip/keyflip/$module.py"
-done
-install -Dm644 packaging/systemd/keyflip-recovery.service \
-    %{buildroot}%{_unitdir}/keyflip-recovery.service
-install -Dm644 assets/sounds/cleaning-key.wav \
-    %{buildroot}%{_datadir}/keyflip/sounds/cleaning-key.wav
+install -Dm644 keyflip_app.py %{buildroot}%{_libexecdir}/keyflip/keyflip_app.py
 install -Dm755 keyflip %{buildroot}%{_bindir}/keyflip
 install -Dm644 assets/keyflip.png \
     %{buildroot}%{_datadir}/icons/hicolor/512x512/apps/io.github.miflow13.KeyFlip.png
@@ -93,26 +90,16 @@ install -m644 gnome-extension/extension.js gnome-extension/metadata.json \
 desktop-file-validate packaging/io.github.miflow13.KeyFlip.desktop
 appstreamcli validate --no-net packaging/io.github.miflow13.KeyFlip.metainfo.xml
 glib-compile-schemas --strict --dry-run packaging
-python3 -m compileall -q app.py src/keyflip
-bash -n keyflip helper/keyflip-helper
-
-%post
-%systemd_post keyflip-recovery.service
-
-%preun
-%systemd_preun keyflip-recovery.service
-
-%postun
-%systemd_postun keyflip-recovery.service
+python3 -m compileall -q app.py keyflip_app.py
+bash -n keyflip keyflip-helper
 
 %files
 %license LICENSE
-%doc README.md CHANGELOG.md
+%doc README.md
 %{_bindir}/keyflip
 %{_libexecdir}/keyflip/app.py
-%{_libexecdir}/keyflip/keyflip/
+%{_libexecdir}/keyflip/keyflip_app.py
 %{_libexecdir}/keyflip/keyflip-helper
-%{_unitdir}/keyflip-recovery.service
 %{_datadir}/applications/io.github.miflow13.KeyFlip.desktop
 %{_datadir}/icons/hicolor/512x512/apps/io.github.miflow13.KeyFlip.png
 %{_datadir}/keyflip/
