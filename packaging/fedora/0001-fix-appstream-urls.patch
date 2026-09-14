@@ -1,19 +1,7 @@
-From 8705b9b43ace452265b80d4a11f0e5852c93fbea Mon Sep 17 00:00:00 2001
-From: Miflow13 <pizzafan513@gmail.com>
-Date: Mon, 14 Sep 2026 16:45:00 -0400
-Subject: [PATCH] Fix KeyFlip AppStream URLs
-
-Backport the upstream metadata URL correction to the 0.2.0-beta release
-archive used by the Fedora package review.
----
- packaging/io.github.miflow13.KeyFlip.metainfo.xml | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
 diff --git a/packaging/io.github.miflow13.KeyFlip.metainfo.xml b/packaging/io.github.miflow13.KeyFlip.metainfo.xml
-index cd5fe51..ec619ab 100644
 --- a/packaging/io.github.miflow13.KeyFlip.metainfo.xml
 +++ b/packaging/io.github.miflow13.KeyFlip.metainfo.xml
-@@ -26,9 +26,9 @@
+@@ -25,9 +25,9 @@
      </p>
    </description>
  
@@ -26,7 +14,7 @@ index cd5fe51..ec619ab 100644
  
    <launchable type="desktop-id">io.github.miflow13.KeyFlip.desktop</launchable>
  
-@@ -43,15 +43,15 @@
+@@ -42,15 +42,15 @@
    <screenshots>
      <screenshot type="default">
 -      <image>https://raw.githubusercontent.com/miflow13/KeyFlip-/main/screenshots/keyflip-app-enabled.png</image>
@@ -44,5 +32,3 @@ index cd5fe51..ec619ab 100644
        <caption>KeyFlip status and keyboard controls</caption>
      </screenshot>
    </screenshots>
--- 
-2.53.0
