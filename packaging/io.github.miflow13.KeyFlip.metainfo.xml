@@ -25,9 +25,9 @@
     </p>
   </description>
 
-  <url type="homepage">https://github.com/miflow13/KeyFlip-</url>
-  <url type="bugtracker">https://github.com/miflow13/KeyFlip-/issues</url>
-  <url type="vcs-browser">https://github.com/miflow13/KeyFlip-</url>
+  <url type="homepage">https://github.com/miflow13/KeyFlip</url>
+  <url type="bugtracker">https://github.com/miflow13/KeyFlip/issues</url>
+  <url type="vcs-browser">https://github.com/miflow13/KeyFlip</url>
 
   <launchable type="desktop-id">io.github.miflow13.KeyFlip.desktop</launchable>
 
@@ -41,15 +41,15 @@
 
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/miflow13/KeyFlip-/main/screenshots/keyflip-app-enabled.png</image>
+      <image>https://raw.githubusercontent.com/miflow13/KeyFlip/main/screenshots/keyflip-app-enabled.png</image>
       <caption>KeyFlip with the internal keyboard enabled in Laptop Mode</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/miflow13/KeyFlip-/main/screenshots/keyflip-status-control.png</image>
+      <image>https://raw.githubusercontent.com/miflow13/KeyFlip/main/screenshots/keyflip-status-control.png</image>
       <caption>GNOME panel controls for switching KeyFlip modes</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/miflow13/KeyFlip-/main/screenshots/keyflip-enabled.png</image>
+      <image>https://raw.githubusercontent.com/miflow13/KeyFlip/main/screenshots/keyflip-enabled.png</image>
       <caption>KeyFlip status and keyboard controls</caption>
     </screenshot>
   </screenshots>
