@@ -24,6 +24,7 @@ jobs:
             curl \
             desktop-file-utils \
             glib2 \
+            glibc-langpack-en \
             patch \
             python3 \
             rpm-build \
@@ -55,8 +56,10 @@ jobs:
             "$HOME"/rpmbuild/RPMS/noarch/*.rpm
 
       - name: Show package contents
+        if: always()
         run: |
           for rpm in "$HOME"/rpmbuild/RPMS/noarch/*.rpm; do
+            [ -e "$rpm" ] || continue
             echo "== $rpm =="
             rpm -qpl "$rpm"
           done
