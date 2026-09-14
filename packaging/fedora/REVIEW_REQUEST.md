@@ -1,6 +1,6 @@
 # Fedora Package Review request draft
 
-Use this as the basis for KeyFlip's Fedora Package Review request after the spec and SRPM are hosted at stable, directly downloadable URLs.
+Use this as the basis for KeyFlip's Fedora Package Review request after the SRPM is hosted at a stable, directly downloadable URL.
 
 ## Summary
 
@@ -16,8 +16,9 @@ The source package also builds `gnome-shell-extension-keyflip`, which provides t
 
 ## Review request fields
 
-- **Spec URL:** `<DIRECT-HTTPS-URL-TO-keyflip.spec>`
-- **SRPM URL:** `<DIRECT-HTTPS-URL-TO-keyflip-0.2.0-0.1.beta.src.rpm>`
+- **FAS username:** `mikachu13`
+- **Spec URL:** https://raw.githubusercontent.com/miflow13/KeyFlip/e9942c5de39bab74b93335a070c4db346f042119/packaging/fedora/keyflip.spec
+- **SRPM URL:** `<DIRECT-HTTPS-URL-TO-keyflip-0.2.0-0.1.beta.fc46.src.rpm>`
 - **Upstream URL:** https://github.com/miflow13/KeyFlip
 - **Upstream release:** https://github.com/miflow13/KeyFlip/releases/tag/v0.2.0-beta
 - **License:** MIT
@@ -25,7 +26,7 @@ The source package also builds `gnome-shell-extension-keyflip`, which provides t
 
 ## Notes for reviewer
 
-This is my first Fedora package submission, so I am seeking a Fedora packager sponsor as part of the review process.
+This is my first Fedora package submission, so I am seeking a Fedora packager sponsor as part of the review process. The review request should block `FE-NEEDSPONSOR`.
 
 The package has been test-built against Fedora Rawhide in upstream CI from the immutable `v0.2.0-beta` release archive. The build validates the desktop file, AppStream metadata, GSettings schema, Python sources, and shell scripts before producing the SRPM and binary RPMs.
 
@@ -46,4 +47,10 @@ The remaining warning is non-fatal. KeyFlip currently documents its command usag
 
 ## Before filing
 
-Replace the two placeholder URLs above with stable direct-download URLs for the exact spec and SRPM being reviewed. Keep the review request updated whenever either file changes so the reviewer is always evaluating the current pair.
+1. Download the `keyflip-fedora-review` artifact from the latest successful `Fedora package review prep` GitHub Actions run.
+2. Extract `keyflip-0.2.0-0.1.beta.fc46.src.rpm`.
+3. Host that SRPM at a stable, publicly accessible direct-download URL. A dedicated GitHub prerelease such as `fedora-review-0.2.0-beta-1` is suitable; clearly label it as Fedora review material rather than an end-user release.
+4. Replace the SRPM placeholder above with the direct asset URL.
+5. File the Fedora Package Review request using the fields and notes above and block `FE-NEEDSPONSOR`.
+
+The SPEC URL above is pinned to the exact Git commit used for the successful Rawhide review build, so it should remain immutable for this review revision.
