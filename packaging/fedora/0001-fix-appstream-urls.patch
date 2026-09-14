@@ -1,0 +1,48 @@
+From 8705b9b43ace452265b80d4a11f0e5852c93fbea Mon Sep 17 00:00:00 2001
+From: Miflow13 <pizzafan513@gmail.com>
+Date: Mon, 14 Sep 2026 16:45:00 -0400
+Subject: [PATCH] Fix KeyFlip AppStream URLs
+
+Backport the upstream metadata URL correction to the 0.2.0-beta release
+archive used by the Fedora package review.
+---
+ packaging/io.github.miflow13.KeyFlip.metainfo.xml | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/packaging/io.github.miflow13.KeyFlip.metainfo.xml b/packaging/io.github.miflow13.KeyFlip.metainfo.xml
+index cd5fe51..ec619ab 100644
+--- a/packaging/io.github.miflow13.KeyFlip.metainfo.xml
++++ b/packaging/io.github.miflow13.KeyFlip.metainfo.xml
+@@ -26,9 +26,9 @@
+     </p>
+   </description>
+ 
+-  <url type="homepage">https://github.com/miflow13/KeyFlip-</url>
+-  <url type="bugtracker">https://github.com/miflow13/KeyFlip-/issues</url>
+-  <url type="vcs-browser">https://github.com/miflow13/KeyFlip-</url>
++  <url type="homepage">https://github.com/miflow13/KeyFlip</url>
++  <url type="bugtracker">https://github.com/miflow13/KeyFlip/issues</url>
++  <url type="vcs-browser">https://github.com/miflow13/KeyFlip</url>
+ 
+   <launchable type="desktop-id">io.github.miflow13.KeyFlip.desktop</launchable>
+ 
+@@ -43,15 +43,15 @@
+   <screenshots>
+     <screenshot type="default">
+-      <image>https://raw.githubusercontent.com/miflow13/KeyFlip-/main/screenshots/keyflip-app-enabled.png</image>
++      <image>https://raw.githubusercontent.com/miflow13/KeyFlip/main/screenshots/keyflip-app-enabled.png</image>
+       <caption>KeyFlip with the internal keyboard enabled in Laptop Mode</caption>
+     </screenshot>
+     <screenshot>
+-      <image>https://raw.githubusercontent.com/miflow13/KeyFlip-/main/screenshots/keyflip-status-control.png</image>
++      <image>https://raw.githubusercontent.com/miflow13/KeyFlip/main/screenshots/keyflip-status-control.png</image>
+       <caption>GNOME panel controls for switching KeyFlip modes</caption>
+     </screenshot>
+     <screenshot>
+-      <image>https://raw.githubusercontent.com/miflow13/KeyFlip-/main/screenshots/keyflip-enabled.png</image>
++      <image>https://raw.githubusercontent.com/miflow13/KeyFlip/main/screenshots/keyflip-enabled.png</image>
+       <caption>KeyFlip status and keyboard controls</caption>
+     </screenshot>
+   </screenshots>
+-- 
+2.53.0
